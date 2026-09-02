@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Richers Printing — Configure Printing Job</title>
+<link rel="stylesheet" href="order.css">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #f4f5f7;
+  min-height: 100vh;
+}
+
+/* Top bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-bottom: 1px solid #e6e8ee;
+  padding: 16px 32px;
+}
+
+.topbar-brand {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1c2333;
+}
+
+.topbar-brand span {
+  color: #2f6fed;
+  font-weight: 500;
+}
+
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  font-size: 13px;
+}
+
+.topbar-nav a {
+  color: #4b5563;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.topbar-nav a:hover {
+  color: #1c2333;
+}
+
+.topbar-user {
+  color: #1c2333;
+  font-weight: 600;
+}
+
+.topbar-user span {
+  font-weight: 400;
+  color: #8a91a8;
+}
+
+/* Main layout */
+.main {
+  padding: 28px 32px;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e6e8ee;
+  border-radius: 12px;
+  padding: 24px 26px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1c2333;
+  margin: 0 0 18px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
+  margin-bottom: 18px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-label {
+  font-size: 12px;
+  color: #555a6b;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.field-input,
+.field-select {
+  padding: 10px 12px;
+  border: 1px solid #cfd3dc;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #1c2333;
+  font-family: inherit;
+  background: #ffffff;
+  width: 100%;
+}
+
+.field-input:focus,
+.field-select:focus {
+  outline: none;
+  border-color: #2f6fed;
+}
+
+/* Upload area */
+.upload-zone {
+  border: 2px dashed #cfd3dc;
+  border-radius: 10px;
+  text-align: center;
+  padding: 28px 20px;
+  margin-top: 6px;
+}
+
+.upload-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1c2333;
+  margin-bottom: 4px;
+}
+
+.upload-sub {
+  font-size: 11.5px;
+  color: #8a91a8;
+  margin-bottom: 14px;
+}
+
+.browse-btn {
+  background: #ffffff;
+  border: 1px solid #cfd3dc;
+  color: #1c2333;
+  padding: 9px 16px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.browse-btn:hover {
+  background: #f4f5f7;
+}
+
+.upload-confirm {
+  margin-top: 14px;
+  background: #d9f2e3;
+  color: #1c8a52;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 12px;
+  display: none;
+}
+
+.upload-confirm.show {
+  display: block;
+}
+
+/* Order breakdown panel */
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #333844;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f1f4;
+}
+
+.breakdown-row:last-of-type {
+  border-bottom: none;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e6e8ee;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1c2333;
+}
+
+.total-value {
+  color: #2f6fed;
+  font-size: 17px;
+}
+
+.guarantee-note {
+  background: #eef0f4;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 11.5px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 16px 0;
+}
+
+.submit-btn {
+  width: 100%;
+  background: #2f6fed;
+  color: #ffffff;
+  border: none;
+  padding: 13px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.08s ease;
+}
+
+.submit-btn:hover {
+  background: #2660d6;
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
+}
+</style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-brand">RICHERS <span>PRINTING</span></div>
+    <div class="topbar-nav">
+      <a href="#">Services & Pricing</a>
+      <a href="#">Track Order</a>
+      <a href="#">My Orders</a>
+      <span class="topbar-user" id="userGreeting">Hi, Customer</span>
+      <a href="#" id="logoutLink">Logout</a>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="main">
+    <div class="content-grid">
+
+      <!-- Configure printing job -->
+      <div class="card">
+        <h2 class="card-title">Configure Printing Job</h2>
+
+        <form id="orderForm">
+          <div class="form-grid">
+            <div class="field-group">
+              <label class="field-label">Service Type</label>
+              <select class="field-select">
+                <option>Document Printing (A4 / Letter)</option>
+                <option>Sticker & Label Printing</option>
+                <option>Large Format Tarpaulin</option>
+                <option>Booklet Binding & Finishing</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Paper Type & Weight</label>
+              <select class="field-select">
+                <option>80gsm Premium White Paper</option>
+                <option>70gsm Standard Paper</option>
+                <option>Glossy Photo Paper</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Color Option</label>
+              <select class="field-select">
+                <option>Full Color (High Quality)</option>
+                <option>Black & White</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Binding / Finishing</label>
+              <select class="field-select">
+                <option>Ring Binding w/ Clear Front Cover</option>
+                <option>Staple Bound</option>
+                <option>No Binding</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Number of Copies</label>
+              <input type="number" class="field-input" value="10" min="1">
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Target Pickup Date</label>
+              <input type="text" class="field-input" value="July 30, 2026 - 3:00 PM">
+            </div>
+          </div>
+
+          <div class="upload-zone">
+            <div class="upload-title">Drag & Drop Printing Files Here</div>
+            <div class="upload-sub">Supported formats: PDF, DOCX, PNG, JPG (Max 50MB)</div>
+            <button type="button" class="browse-btn" id="browseBtn">Browse Local Files</button>
+            <input type="file" id="fileInput" style="display:none">
+            <div class="upload-confirm" id="uploadConfirm"></div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Order breakdown -->
+      <div class="card">
+        <h2 class="card-title">Order Breakdown & Quotation</h2>
+
+        <div class="breakdown-row">
+          <span>450 Pages (Color @ P5.00)</span>
+          <span>₱2,250.00</span>
+        </div>
+        <div class="breakdown-row">
+          <span>10x Ring Binding (@ P45.00)</span>
+          <span>₱450.00</span>
+        </div>
+        <div class="breakdown-row">
+          <span>10x Clear Covers (P15.00)</span>
+          <span>₱150.00</span>
+        </div>
+
+        <div class="total-row">
+          <span>Estimated Total</span>
+          <span class="total-value">₱2,850.00</span>
+        </div>
+
+        <div class="guarantee-note">
+          Anti-Scam Ownership Guarantee: Your account details (Andrei Joaquin A.) will be linked to Transaction #RPS-2026-G801 for shop verification upon store pickup.
+        </div>
+
+        <button type="submit" form="orderForm" class="submit-btn">Submit Printing Order</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="order.js">
+// ===== Auth guard: only logged-in users (from login.js) can view this page =====
+const currentUser = JSON.parse(localStorage.getItem('richersCurrentUser') || 'null');
+
+if (!currentUser) {
+  window.location.href = 'login.html';
+}
+
+// ===== Greeting =====
+function formatGreetingName(fullName) {
+  const parts = fullName.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0];
+  const last = parts.pop();
+  return parts.join(' ') + ' ' + last.charAt(0).toUpperCase() + '.';
+}
+
+if (currentUser) {
+  document.getElementById('userGreeting').textContent =
+    'Hi, ' + formatGreetingName(currentUser.fullName) + ' (Customer)';
+}
+
+// ===== Logout =====
+document.getElementById('logoutLink').addEventListener('click', function (e) {
+  e.preventDefault();
+  localStorage.removeItem('richersCurrentUser');
+  window.location.href = 'login.html';
+});
+
+// ===== File upload mock =====
+const browseBtn = document.getElementById('browseBtn');
+const fileInput = document.getElementById('fileInput');
+const uploadConfirm = document.getElementById('uploadConfirm');
+
+browseBtn.addEventListener('click', function () {
+  fileInput.click();
+});
+
+fileInput.addEventListener('change', function () {
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+    uploadConfirm.textContent = '✓ ' + file.name + ' (' + sizeMB + 'MB) Uploaded';
+    uploadConfirm.classList.add('show');
+  }
+});
+
+// ===== Submit order =====
+document.getElementById('orderForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  alert('Printing order submitted successfully! You can track its progress under "My Orders".');
+});
+</script>
+</body>
+</html>
